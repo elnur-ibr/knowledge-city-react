@@ -24,7 +24,9 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    axios.post('http://knowledge-city-php.test/api/auth/login', data).then(response => {
+    axios.post('https://knowledge-city-php.test/api/auth/login', data, {
+      withCredentials: true,
+    }).then(response => {
       setLoggedIn(true)
       setToken(response.data.token)
 
@@ -33,7 +35,12 @@ function App() {
     })
   }
   const handleLogout = (e) => {
-    axios.delete('http://knowledge-city-php.test/api/auth/logout').then(response => {
+    axios.delete('https://knowledge-city-php.test/api/auth/logout', {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then(response => {
       setLoggedIn(false)
       setToken('')
 
@@ -91,7 +98,7 @@ function App() {
           renderOnZeroPageCount={null}
         />
         <div className="flex justify-center fixed bottom-0 py-3 bg-gray-200 w-full">
-          <p className="font-medium" onClick={handleLogout}>Log out</p>
+          <p className="font-medium cursor-pointer" onClick={handleLogout}>Log out</p>
         </div>
       </div>
     );
